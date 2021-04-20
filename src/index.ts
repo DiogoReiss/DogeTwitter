@@ -1,21 +1,25 @@
 import getDogePrice from './utils/dogePrice';
 import tweetDogePrice from './utils/tweetDogePrice';
+import getPriceEURUSD from './utils/getPriceEURUSD';
 import schedule from 'node-schedule';
 
-const wallet = 46.900;
-const initialPrice = 0.37;
+const wallet = 48.65;
+const initialPrice = 0.40;
 
-console.log('bot online <3')
+console.log('The bot are going to the moon with the big dawg :) 🚀')
 
 const tweet = schedule.scheduleJob('* * 1 * * *', async () => {
   const dogePrice = await getDogePrice();
-  const message = initialPrice > dogePrice.price ? `Diogo está puto & triste com o valor do DOGECOIN :( 
-    \n VALOR ATUAL EM DOLARES: $${wallet * dogePrice.price} 
-    \n QUANTIDADE DE DOGECOINS: ${wallet} 
-    \n COTAÇÃO DO DOGECOIN NO MERCADO : ${dogePrice.price}` : `Diogo está feliz p caralhos com o valor do DOGECOIN :D 
-    \n VALOR ATUAL: $${wallet * dogePrice.price}
-    \n QUANTIDADE DE DOGECOINS: ${wallet} 
-    \n COTAÇÃO DO DOGECOIN NO MERCADO : ${dogePrice.price}`
+  const eurPrice = await getPriceEURUSD();
+  const convertDogePrice = dogePrice.price * eurPrice;
+  const myWalletPrice = wallet * convertDogePrice;
+  const message = initialPrice > dogePrice.price ? `Diogo está puto & triste com o valor do DOGECOIN 😭
+    \n VALOR ATUAL DAS MINHAS MOEDAS: €${myWalletPrice} 🪙
+    \n QUANTIDADE DE DOGECOINS: ${wallet} 💸
+    \n COTAÇÃO DO DOGECOIN NO MERCADO : ${convertDogePrice} 💹` : `Diogo está feliz p caralhos com o valor do DOGECOIN 😍 
+    \n VALOR ATUAL DAS MINHAS MOEDAS: $${myWalletPrice}
+    \n QUANTIDADE DE DOGECOINS: ${wallet} 💸
+    \n COTAÇÃO DO DOGECOIN NO MERCADO : ${convertDogePrice} 💹`
   tweetDogePrice(message);
-  console.log('tweet feito com sucesso!');
+  console.log('tweet feito com sucesso! 🚀');
 });
