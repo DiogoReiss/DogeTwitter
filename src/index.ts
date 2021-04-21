@@ -4,16 +4,16 @@ import getPriceEURUSD from './utils/getPriceEURUSD';
 import schedule from 'node-schedule';
 
 const wallet = 48.65;
-const initialPrice = 0.40;
+const initialPrice = 0.3317;
 
 console.log('The bot are going to the moon with the big dawg :) 🚀')
 
 const tweet = schedule.scheduleJob('* * 1 * * *', async () => {
   const dogePrice = await getDogePrice();
   const eurPrice = await getPriceEURUSD();
-  const convertDogePrice = dogePrice.price * eurPrice;
+  const convertDogePrice = dogePrice.price / eurPrice;
   const myWalletPrice = wallet * convertDogePrice;
-  const message = initialPrice > dogePrice.price ? `Diogo está puto & triste com o valor do DOGECOIN 😭
+  const message = initialPrice > convertDogePrice ? `Diogo está puto & triste com o valor do DOGECOIN 😭
     \n VALOR ATUAL DAS MINHAS MOEDAS: €${myWalletPrice} 🪙
     \n QUANTIDADE DE DOGECOINS: ${wallet} 💸
     \n COTAÇÃO DO DOGECOIN NO MERCADO : ${convertDogePrice} 💹` : `Diogo está feliz p caralhos com o valor do DOGECOIN 😍 
@@ -21,5 +21,4 @@ const tweet = schedule.scheduleJob('* * 1 * * *', async () => {
     \n QUANTIDADE DE DOGECOINS: ${wallet} 💸
     \n COTAÇÃO DO DOGECOIN NO MERCADO : ${convertDogePrice} 💹`
   tweetDogePrice(message);
-  console.log('tweet feito com sucesso! 🚀');
 });
