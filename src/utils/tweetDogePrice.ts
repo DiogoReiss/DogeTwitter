@@ -13,9 +13,15 @@ const client = new twitter(
 );
 
 export default async function tweetDogePrice(message: string) {
-  await client.post('statuses/update', { status: `${message}` }, (error, tweet) => {
-    if (error) throw error;
-    console.log('tweet feito com sucesso! 🚀');
-    return console.log(tweet.created_at);
+  await client.post('statuses/update', { status: `${message}` }, (error) => {
+    var status  = ''
+    if (error) {
+      status = 'tweet não foi feito com sucesso'
+      return status;
+    } else {
+      status = 'tweet feito com sucesso! 🚀'
+      return status;
+    };
   })
+  return {status}
 };

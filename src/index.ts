@@ -10,7 +10,7 @@ console.log('The bot are going to the moon with the big dawg :) 🚀')
 
 const tweet = schedule.scheduleJob('* * 1 * * *', async () => {
   const dogePrice = await getDogePrice();
-  const eurPrice = await getPriceEURUSD();
+  const eurPrice = Number(await getPriceEURUSD());
   const convertDogePrice = dogePrice.price / eurPrice;
   const myWalletPrice = wallet * convertDogePrice;
   const message = initialPrice > convertDogePrice ? `Diogo está puto & triste com o valor do DOGECOIN 😭
